@@ -144,8 +144,6 @@ const title = document.getElementById("title");
 const text = document.getElementById("text");
 const closeBtn = document.getElementById("close");
 const final = document.getElementById("final");
-const music = document.getElementById("music");
-const musicBtn = document.getElementById("music-btn");
 
 let opened = [];
 
@@ -162,37 +160,31 @@ const letters = [
   {title:"Open when you read this years later", text:"If you’re here, it meant something."}
 ];
 
-stars.forEach(star => {
-  star.onclick = () => {
-    let id = star.dataset.id;
-
-    title.innerText = letters[id].title;
-    text.innerText = letters[id].text;
+// STAR CLICK
+stars.forEach((star, index) => {
+  star.addEventListener("click", () => {
+    title.innerText = letters[index].title;
+    text.innerText = letters[index].text;
 
     popup.classList.remove("hidden");
 
-    if (!opened.includes(id)) {
-      opened.push(id);
+    if (!opened.includes(index)) {
+      opened.push(index);
       star.classList.add("opened");
     }
 
     if (opened.length === stars.length) {
-      setTimeout(() => final.classList.remove("hidden"), 800);
+      setTimeout(() => {
+        final.classList.remove("hidden");
+      }, 800);
     }
-  };
+  });
 });
 
-closeBtn.onclick = () => popup.classList.add("hidden");
-
-musicBtn.onclick = () => {
-  if (music.paused) {
-    music.play();
-    musicBtn.innerText = "🔊";
-  } else {
-    music.pause();
-    musicBtn.innerText = "🔇";
-  }
-};
+// CLOSE POPUP
+closeBtn.addEventListener("click", () => {
+  popup.classList.add("hidden");
+});
 </script>
 
 </body>
