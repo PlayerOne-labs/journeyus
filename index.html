@@ -6,14 +6,42 @@
 <title>Our Journey</title>
 
 <style>
+
 body {
   margin: 0;
-  background: radial-gradient(circle, #0b0c2a, #000);
-  color: white;
   font-family: sans-serif;
   overflow: hidden;
+  color: white;
+
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255, 0, 150, 0.08), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(0, 150, 255, 0.08), transparent 40%),
+    radial-gradient(circle at center, #0b0c2a, #000);
 }
 
+#galaxy {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+#galaxy span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 4s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+  
 h2 {
   text-align: center;
   margin-top: 20px;
@@ -80,19 +108,24 @@ h2 {
 
 <body>
 
+<div id="galaxy"></div>
+
 <h2>a journey written in stars</h2>
 
 <!-- stars -->
-<div class="star" style="top:10%; left:50%;">✦</div>
-<div class="star" style="top:20%; left:70%;">✦</div>
-<div class="star" style="top:35%; left:85%;">✦</div>
-<div class="star" style="top:55%; left:80%;">✦</div>
-<div class="star" style="top:70%; left:65%;">✦</div>
+<div class="star" style="top:25%; left:50%;">✦</div>
+
+<div class="star" style="top:30%; left:65%;">✦</div>
+<div class="star" style="top:40%; left:75%;">✦</div>
+<div class="star" style="top:55%; left:70%;">✦</div>
+
+<div class="star" style="top:70%; left:60%;">✦</div>
 <div class="star" style="top:80%; left:50%;">✦</div>
-<div class="star" style="top:70%; left:35%;">✦</div>
-<div class="star" style="top:55%; left:20%;">✦</div>
-<div class="star" style="top:35%; left:15%;">✦</div>
-<div class="star" style="top:20%; left:30%;">✦</div>
+
+<div class="star" style="top:70%; left:40%;">✦</div>
+<div class="star" style="top:55%; left:30%;">✦</div>
+<div class="star" style="top:40%; left:25%;">✦</div>
+<div class="star" style="top:30%; left:35%;">✦</div>
 
 <!-- popup -->
 <div id="popup">
@@ -114,6 +147,18 @@ style="position:absolute; top:0; left:0; pointer-events:none;">
 
 <script>
 window.onload = function () {
+
+const galaxy = document.getElementById("galaxy");
+
+for (let i = 0; i < 120; i++) {
+  let star = document.createElement("span");
+
+  star.style.top = Math.random() * 100 + "%";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.animationDelay = Math.random() * 4 + "s";
+
+  galaxy.appendChild(star);
+}
 
   const stars = document.querySelectorAll(".star");
   const popup = document.getElementById("popup");
@@ -139,10 +184,10 @@ window.onload = function () {
   ];
 
   // HEART CONNECTION ORDER
-  const connections = [
-    [0,1],[1,2],[2,3],[3,4],[4,5],
-    [5,6],[6,7],[7,8],[8,9],[9,0]
-  ];
+ const connections = [
+  [0,1],[1,2],[2,3],[3,4],[4,5],
+  [5,6],[6,7],[7,8],[8,9],[9,0]
+];
 
   function drawLine(star1, star2) {
     const rect1 = star1.getBoundingClientRect();
@@ -160,8 +205,9 @@ window.onload = function () {
     line.setAttribute("x2", x2);
     line.setAttribute("y2", y2);
 
-    line.setAttribute("stroke", "#ffb6d9");
+    line.setAttribute("stroke", "#ff8fd8");
     line.setAttribute("stroke-width", "2");
+    line.style.filter = "drop-shadow(0 0 6px #ff8fd8)";
 
     svg.appendChild(line);
   }
