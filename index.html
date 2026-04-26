@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +7,6 @@
 <title>Our Journey</title>
 
 <style>
-
 body {
   margin: 0;
   font-family: sans-serif;
@@ -19,15 +19,13 @@ body {
     radial-gradient(circle at center, #0b0c2a, #000);
 }
 
-#constellation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 300px;
-  transform: translate(-50%, -50%);
+h2 {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.8;
 }
 
+/* galaxy stars */
 #galaxy {
   position: fixed;
   top: 0;
@@ -50,18 +48,22 @@ body {
   0%, 100% { opacity: 0.2; }
   50% { opacity: 1; }
 }
-  
-h2 {
-  text-align: center;
-  margin-top: 20px;
-  opacity: 0.8;
+
+/* constellation */
+#constellation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -50%);
 }
 
 .star {
   position: absolute;
   cursor: pointer;
   font-size: 18px;
-  opacity: 0.5;
+  opacity: 0.6;
   transition: 0.3s;
 }
 
@@ -71,8 +73,8 @@ h2 {
 }
 
 .star.opened {
-  color: #ffb6d9;
-  text-shadow: 0 0 10px #ffb6d9;
+  color: #ff9edb;
+  text-shadow: 0 0 10px #ff9edb;
   opacity: 1;
 }
 
@@ -102,14 +104,14 @@ h2 {
   cursor: pointer;
 }
 
-/* final message */
+/* final text */
 #final {
   position: fixed;
   top: 40%;
   width: 100%;
   text-align: center;
   font-size: 26px;
-  color: #ffb6d9;
+  color: #ff9edb;
   display: none;
 }
 </style>
@@ -121,134 +123,117 @@ h2 {
 
 <h2>a journey written in stars</h2>
 
-<!-- stars -->
-
 <div id="constellation">
-  
-<div class="star" style="top:25%; left:50%;">✦</div>
-
-<div class="star" style="top:30%; left:65%;">✦</div>
-<div class="star" style="top:40%; left:75%;">✦</div>
-<div class="star" style="top:55%; left:70%;">✦</div>
-
-<div class="star" style="top:70%; left:60%;">✦</div>
-<div class="star" style="top:80%; left:50%;">✦</div>
-
-<div class="star" style="top:70%; left:40%;">✦</div>
-<div class="star" style="top:55%; left:30%;">✦</div>
-<div class="star" style="top:40%; left:25%;">✦</div>
-<div class="star" style="top:30%; left:35%;">✦</div>
-
+  <svg id="lines" width="320" height="320" style="position:absolute; top:0; left:0; pointer-events:none;"></svg>
 </div>
-  
-<!-- popup -->
+
 <div id="popup">
   <div class="box">
     <span id="close">✕</span>
-    <h3 id="title"></h3>
+    <h3 id="title">Open when...</h3>
     <p id="text"></p>
   </div>
 </div>
 
-<!-- final -->
 <div id="final">
   now you see it.<br>this was always us.
 </div>
 
-<svg id="lines" width="100%" height="100%" 
-style="position:absolute; top:0; left:0; pointer-events:none;">
-</svg>
-
 <script>
 window.onload = function () {
 
-const galaxy = document.getElementById("galaxy");
+  const galaxy = document.getElementById("galaxy");
 
-for (let i = 0; i < 120; i++) {
-  let star = document.createElement("span");
+  for (let i = 0; i < 120; i++) {
+    let star = document.createElement("span");
+    star.style.top = Math.random() * 100 + "%";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.animationDelay = Math.random() * 4 + "s";
+    galaxy.appendChild(star);
+  }
 
-  star.style.top = Math.random() * 100 + "%";
-  star.style.left = Math.random() * 100 + "%";
-  star.style.animationDelay = Math.random() * 4 + "s";
+  const container = document.getElementById("constellation");
+  const svg = document.getElementById("lines");
 
-  galaxy.appendChild(star);
-}
+  const totalStars = 12;
+  let stars = [];
 
-  const stars = document.querySelectorAll(".star");
+  // ❤️ generate heart shape
+  for (let i = 0; i < totalStars; i++) {
+    let t = (i / totalStars) * Math.PI * 2;
+
+    let x = 16 * Math.pow(Math.sin(t), 3);
+    let y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+
+    let posX = 160 + x * 6;
+    let posY = 150 - y * 6;
+
+    let star = document.createElement("div");
+    star.className = "star";
+    star.style.left = posX + "px";
+    star.style.top = posY + "px";
+    star.innerHTML = "✦";
+
+    container.appendChild(star);
+    stars.push(star);
+  }
+
   const popup = document.getElementById("popup");
-  const title = document.getElementById("title");
   const text = document.getElementById("text");
   const close = document.getElementById("close");
   const final = document.getElementById("final");
-  const svg = document.getElementById("lines");
 
   let opened = [];
 
   const letters = [
     "Even when I’m not there, I’m with you.",
     "We didn’t know how far we’d come.",
-    "We fight, but we always come back.",
-    "I may not always understand, but I try.",
+    "We fight, but we come back.",
+    "I may not understand, but I try.",
     "You’ve always found your way.",
-    "You’re stronger than this moment.",
+    "You’re stronger than this.",
     "I see things in you that you don’t.",
-    "I’m proud of you. Always.",
+    "I’m proud of you.",
     "What we have is real.",
-    "If you’re here, it meant something."
+    "You matter.",
+    "We made it this far.",
+    "If you're here, it meant something."
   ];
 
-  // HEART CONNECTION ORDER
- const connections = [
-  [0,1],[1,2],[2,3],[3,4],[4,5],
-  [5,6],[6,7],[7,8],[8,9],[9,0]
-];
+  function drawLine(s1, s2) {
+    let x1 = s1.offsetLeft + s1.offsetWidth / 2;
+    let y1 = s1.offsetTop + s1.offsetHeight / 2;
+    let x2 = s2.offsetLeft + s2.offsetWidth / 2;
+    let y2 = s2.offsetTop + s2.offsetHeight / 2;
 
- function drawLine(star1, star2) {
-  const container = document.getElementById("constellation");
-  const cRect = container.getBoundingClientRect();
+    let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
-  const rect1 = star1.getBoundingClientRect();
-  const rect2 = star2.getBoundingClientRect();
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
 
-  const x1 = rect1.left - cRect.left + rect1.width / 2;
-  const y1 = rect1.top - cRect.top + rect1.height / 2;
+    line.setAttribute("stroke", "#ff9edb");
+    line.setAttribute("stroke-width", "2");
+    line.setAttribute("stroke-linecap", "round");
+    line.style.filter = "drop-shadow(0 0 8px #ff9edb)";
 
-  const x2 = rect2.left - cRect.left + rect2.width / 2;
-  const y2 = rect2.top - cRect.top + rect2.height / 2;
+    svg.appendChild(line);
+  }
 
-  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-
-  line.setAttribute("x1", x1);
-  line.setAttribute("y1", y1);
-  line.setAttribute("x2", x2);
-  line.setAttribute("y2", y2);
-
-  line.setAttribute("stroke", "#ff9edb");
-  line.setAttribute("stroke-width", "2");
-  line.setAttribute("stroke-linecap", "round");
-  line.style.filter = "drop-shadow(0 0 8px #ff9edb)";
-
-  document.getElementById("lines").appendChild(line);
-}
-
-  stars.forEach((star, index) => {
+  stars.forEach((star, i) => {
     star.onclick = function () {
 
-      title.innerText = "Open when...";
-      text.innerText = letters[index];
-
+      text.innerText = letters[i % letters.length];
       popup.style.display = "flex";
 
-      if (!opened.includes(index)) {
-        opened.push(index);
+      if (!opened.includes(i)) {
+        opened.push(i);
         star.classList.add("opened");
 
-        // draw connections progressively
-        connections.forEach(pair => {
-          if (opened.includes(pair[0]) && opened.includes(pair[1])) {
-            drawLine(stars[pair[0]], stars[pair[1]]);
-          }
-        });
+        if (opened.length > 1) {
+          drawLine(stars[opened[opened.length - 2]], star);
+        }
       }
 
       if (opened.length === stars.length) {
@@ -268,3 +253,4 @@ for (let i = 0; i < 120; i++) {
 
 </body>
 </html>
+```
