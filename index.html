@@ -138,52 +138,54 @@ body {
 </div>
 
 <script>
-const stars = document.querySelectorAll(".star");
-const popup = document.getElementById("popup");
-const title = document.getElementById("title");
-const text = document.getElementById("text");
-const closeBtn = document.getElementById("close");
-const final = document.getElementById("final");
+document.addEventListener("DOMContentLoaded", function () {
 
-let opened = [];
+  const stars = document.querySelectorAll(".star");
+  const popup = document.getElementById("popup");
+  const title = document.getElementById("title");
+  const text = document.getElementById("text");
+  const closeBtn = document.getElementById("close");
+  const final = document.getElementById("final");
 
-const letters = [
-  {title:"Open when you miss me", text:"Even when I’m not there, I’m with you in quiet ways."},
-  {title:"Open when you think of how we started", text:"We had no idea how far we’d come."},
-  {title:"Open when we fight", text:"We may fall apart sometimes, but we always come back."},
-  {title:"Open when you feel I don’t understand you", text:"I may fail sometimes, but I’m always trying."},
-  {title:"Open when you feel lost", text:"You’ve always found your way."},
-  {title:"Open when you feel like giving up", text:"You’re stronger than this moment."},
-  {title:"Open when you doubt yourself", text:"I see things in you that you don’t."},
-  {title:"Open when you achieve something big", text:"I’m proud of you. Always."},
-  {title:"Open when you think about us long term", text:"What we have is real."},
-  {title:"Open when you read this years later", text:"If you’re here, it meant something."}
-];
+  let opened = [];
 
-// STAR CLICK
-stars.forEach((star, index) => {
-  star.addEventListener("click", () => {
-    title.innerText = letters[index].title;
-    text.innerText = letters[index].text;
+  const letters = [
+    {title:"Open when you miss me", text:"Even when I’m not there, I’m with you in quiet ways."},
+    {title:"Open when you think of how we started", text:"We had no idea how far we’d come."},
+    {title:"Open when we fight", text:"We may fall apart sometimes, but we always come back."},
+    {title:"Open when you feel I don’t understand you", text:"I may fail sometimes, but I’m always trying."},
+    {title:"Open when you feel lost", text:"You’ve always found your way."},
+    {title:"Open when you feel like giving up", text:"You’re stronger than this moment."},
+    {title:"Open when you doubt yourself", text:"I see things in you that you don’t."},
+    {title:"Open when you achieve something big", text:"I’m proud of you. Always."},
+    {title:"Open when you think about us long term", text:"What we have is real."},
+    {title:"Open when you read this years later", text:"If you’re here, it meant something."}
+  ];
 
-    popup.classList.remove("hidden");
+  stars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      title.innerText = letters[index].title;
+      text.innerText = letters[index].text;
 
-    if (!opened.includes(index)) {
-      opened.push(index);
-      star.classList.add("opened");
-    }
+      popup.classList.remove("hidden");
 
-    if (opened.length === stars.length) {
-      setTimeout(() => {
-        final.classList.remove("hidden");
-      }, 800);
-    }
+      if (!opened.includes(index)) {
+        opened.push(index);
+        star.classList.add("opened");
+      }
+
+      if (opened.length === stars.length) {
+        setTimeout(() => {
+          final.classList.remove("hidden");
+        }, 800);
+      }
+    });
   });
-});
 
-// CLOSE POPUP
-closeBtn.addEventListener("click", () => {
-  popup.classList.add("hidden");
+  closeBtn.addEventListener("click", () => {
+    popup.classList.add("hidden");
+  });
+
 });
 </script>
 
