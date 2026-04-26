@@ -19,6 +19,15 @@ body {
     radial-gradient(circle at center, #0b0c2a, #000);
 }
 
+#constellation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+}
+
 #galaxy {
   position: fixed;
   top: 0;
@@ -113,6 +122,9 @@ h2 {
 <h2>a journey written in stars</h2>
 
 <!-- stars -->
+
+<div id="constellation">
+  
 <div class="star" style="top:25%; left:50%;">✦</div>
 
 <div class="star" style="top:30%; left:65%;">✦</div>
@@ -127,6 +139,8 @@ h2 {
 <div class="star" style="top:40%; left:25%;">✦</div>
 <div class="star" style="top:30%; left:35%;">✦</div>
 
+</div>
+  
 <!-- popup -->
 <div id="popup">
   <div class="box">
@@ -189,28 +203,33 @@ for (let i = 0; i < 120; i++) {
   [5,6],[6,7],[7,8],[8,9],[9,0]
 ];
 
-  function drawLine(star1, star2) {
-    const rect1 = star1.getBoundingClientRect();
-    const rect2 = star2.getBoundingClientRect();
+ function drawLine(star1, star2) {
+  const container = document.getElementById("constellation");
+  const cRect = container.getBoundingClientRect();
 
-    const x1 = rect1.left + rect1.width/2;
-    const y1 = rect1.top + rect1.height/2;
-    const x2 = rect2.left + rect2.width/2;
-    const y2 = rect2.top + rect2.height/2;
+  const rect1 = star1.getBoundingClientRect();
+  const rect2 = star2.getBoundingClientRect();
 
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  const x1 = rect1.left - cRect.left + rect1.width / 2;
+  const y1 = rect1.top - cRect.top + rect1.height / 2;
 
-    line.setAttribute("x1", x1);
-    line.setAttribute("y1", y1);
-    line.setAttribute("x2", x2);
-    line.setAttribute("y2", y2);
+  const x2 = rect2.left - cRect.left + rect2.width / 2;
+  const y2 = rect2.top - cRect.top + rect2.height / 2;
 
-    line.setAttribute("stroke", "#ff8fd8");
-    line.setAttribute("stroke-width", "2");
-    line.style.filter = "drop-shadow(0 0 6px #ff8fd8)";
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
-    svg.appendChild(line);
-  }
+  line.setAttribute("x1", x1);
+  line.setAttribute("y1", y1);
+  line.setAttribute("x2", x2);
+  line.setAttribute("y2", y2);
+
+  line.setAttribute("stroke", "#ff9edb");
+  line.setAttribute("stroke-width", "2");
+  line.setAttribute("stroke-linecap", "round");
+  line.style.filter = "drop-shadow(0 0 8px #ff9edb)";
+
+  document.getElementById("lines").appendChild(line);
+}
 
   stars.forEach((star, index) => {
     star.onclick = function () {
