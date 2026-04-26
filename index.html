@@ -108,6 +108,10 @@ h2 {
   now you see it.<br>this was always us.
 </div>
 
+<svg id="lines" width="100%" height="100%" 
+style="position:absolute; top:0; left:0; pointer-events:none;">
+</svg>
+
 <script>
 window.onload = function () {
 
@@ -117,6 +121,7 @@ window.onload = function () {
   const text = document.getElementById("text");
   const close = document.getElementById("close");
   const final = document.getElementById("final");
+  const svg = document.getElementById("lines");
 
   let opened = [];
 
@@ -133,6 +138,34 @@ window.onload = function () {
     "If you’re here, it meant something."
   ];
 
+  // HEART CONNECTION ORDER
+  const connections = [
+    [0,1],[1,2],[2,3],[3,4],[4,5],
+    [5,6],[6,7],[7,8],[8,9],[9,0]
+  ];
+
+  function drawLine(star1, star2) {
+    const rect1 = star1.getBoundingClientRect();
+    const rect2 = star2.getBoundingClientRect();
+
+    const x1 = rect1.left + rect1.width/2;
+    const y1 = rect1.top + rect1.height/2;
+    const x2 = rect2.left + rect2.width/2;
+    const y2 = rect2.top + rect2.height/2;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+
+    line.setAttribute("stroke", "#ffb6d9");
+    line.setAttribute("stroke-width", "2");
+
+    svg.appendChild(line);
+  }
+
   stars.forEach((star, index) => {
     star.onclick = function () {
 
@@ -144,6 +177,13 @@ window.onload = function () {
       if (!opened.includes(index)) {
         opened.push(index);
         star.classList.add("opened");
+
+        // draw connections progressively
+        connections.forEach(pair => {
+          if (opened.includes(pair[0]) && opened.includes(pair[1])) {
+            drawLine(stars[pair[0]], stars[pair[1]]);
+          }
+        });
       }
 
       if (opened.length === stars.length) {
