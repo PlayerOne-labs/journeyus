@@ -138,11 +138,12 @@ h2 {
   now you see it.<br>this was always us.
 </div>
 
+```html
 <script>
 window.onload = function () {
 
+  // 🌌 galaxy background
   const galaxy = document.getElementById("galaxy");
-
   for (let i = 0; i < 120; i++) {
     let star = document.createElement("span");
     star.style.top = Math.random() * 100 + "%";
@@ -154,10 +155,13 @@ window.onload = function () {
   const container = document.getElementById("constellation");
   const svg = document.getElementById("lines");
 
+  // clear old stuff (important)
+  container.querySelectorAll(".star").forEach(s => s.remove());
+
   const totalStars = 12;
   let stars = [];
 
-  // ❤️ generate heart shape
+  // ❤️ generate proper heart shape
   for (let i = 0; i < totalStars; i++) {
     let t = (i / totalStars) * Math.PI * 2;
 
@@ -199,27 +203,36 @@ window.onload = function () {
     "If you're here, it meant something."
   ];
 
-  function drawLine(s1, s2) {
-    let x1 = s1.offsetLeft + s1.offsetWidth / 2;
-    let y1 = s1.offsetTop + s1.offsetHeight / 2;
-    let x2 = s2.offsetLeft + s2.offsetWidth / 2;
-    let y2 = s2.offsetTop + s2.offsetHeight / 2;
+  // ❤️ draw clean heart outline (not random lines)
+  function drawHeartOutline(stars) {
+    let pathData = "";
 
-    let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    stars.forEach((star, i) => {
+      let x = star.offsetLeft + star.offsetWidth / 2;
+      let y = star.offsetTop + star.offsetHeight / 2;
 
-    line.setAttribute("x1", x1);
-    line.setAttribute("y1", y1);
-    line.setAttribute("x2", x2);
-    line.setAttribute("y2", y2);
+      if (i === 0) {
+        pathData += `M ${x} ${y}`;
+      } else {
+        pathData += ` L ${x} ${y}`;
+      }
+    });
 
-    line.setAttribute("stroke", "#ff9edb");
-    line.setAttribute("stroke-width", "2");
-    line.setAttribute("stroke-linecap", "round");
-    line.style.filter = "drop-shadow(0 0 8px #ff9edb)";
+    pathData += " Z";
 
-    svg.appendChild(line);
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+    path.setAttribute("d", pathData);
+    path.setAttribute("stroke", "#ff9edb");
+    path.setAttribute("stroke-width", "2");
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke-linecap", "round");
+    path.style.filter = "drop-shadow(0 0 10px #ff9edb)";
+
+    svg.appendChild(path);
   }
 
+  // ⭐ click logic
   stars.forEach((star, i) => {
     star.onclick = function () {
 
@@ -229,13 +242,12 @@ window.onload = function () {
       if (!opened.includes(i)) {
         opened.push(i);
         star.classList.add("opened");
-
-        if (opened.length > 1) {
-          drawLine(stars[opened[opened.length - 2]], star);
-        }
       }
 
+      // ❤️ show heart only when all opened
       if (opened.length === stars.length) {
+        drawHeartOutline(stars);
+
         setTimeout(() => {
           final.style.display = "block";
         }, 800);
