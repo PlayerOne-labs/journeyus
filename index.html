@@ -138,30 +138,20 @@ h2 {
   now you see it.<br>this was always us.
 </div>
 
-```html
 <script>
 window.onload = function () {
-
-  // 🌌 galaxy background
-  const galaxy = document.getElementById("galaxy");
-  for (let i = 0; i < 120; i++) {
-    let star = document.createElement("span");
-    star.style.top = Math.random() * 100 + "%";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.animationDelay = Math.random() * 4 + "s";
-    galaxy.appendChild(star);
-  }
 
   const container = document.getElementById("constellation");
   const svg = document.getElementById("lines");
 
-  // clear old stuff (important)
+  // 🔁 clear old stars safely (but KEEP svg)
   container.querySelectorAll(".star").forEach(s => s.remove());
+  svg.innerHTML = "";
 
   const totalStars = 12;
   let stars = [];
 
-  // ❤️ generate proper heart shape
+  // ❤️ generate heart
   for (let i = 0; i < totalStars; i++) {
     let t = (i / totalStars) * Math.PI * 2;
 
@@ -188,60 +178,41 @@ window.onload = function () {
 
   let opened = [];
 
-  const letters = [
-    "Even when I’m not there, I’m with you.",
-    "We didn’t know how far we’d come.",
-    "We fight, but we come back.",
-    "I may not understand, but I try.",
-    "You’ve always found your way.",
-    "You’re stronger than this.",
-    "I see things in you that you don’t.",
-    "I’m proud of you.",
-    "What we have is real.",
-    "You matter.",
-    "We made it this far.",
-    "If you're here, it meant something."
-  ];
+  // ❤️ FIXED LINE DRAWING (guaranteed visible)
+  function drawHeart(stars) {
 
-  // ❤️ draw clean heart outline (not random lines)
-  function drawHeartOutline(stars) {
-  const svg = document.getElementById("lines");
+    svg.innerHTML = ""; // clear old lines
 
-  // clear old lines (important)
-  svg.innerHTML = "";
+    for (let i = 0; i < stars.length; i++) {
+      let s1 = stars[i];
+      let s2 = stars[(i + 1) % stars.length];
 
-  const points = stars.map(star => {
-    return [
-      star.offsetLeft + star.offsetWidth / 2,
-      star.offsetTop + star.offsetHeight / 2
-    ];
-  });
+      let x1 = s1.offsetLeft + s1.offsetWidth / 2;
+      let y1 = s1.offsetTop + s1.offsetHeight / 2;
 
-  let pathData = `M ${points[0][0]} ${points[0][1]}`;
+      let x2 = s2.offsetLeft + s2.offsetWidth / 2;
+      let y2 = s2.offsetTop + s2.offsetHeight / 2;
 
-  for (let i = 1; i < points.length; i++) {
-    pathData += ` L ${points[i][0]} ${points[i][1]}`;
+      let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+
+      line.setAttribute("x1", x1);
+      line.setAttribute("y1", y1);
+      line.setAttribute("x2", x2);
+      line.setAttribute("y2", y2);
+
+      line.setAttribute("stroke", "#ff9edb");
+      line.setAttribute("stroke-width", "2");
+      line.setAttribute("stroke-linecap", "round");
+
+      svg.appendChild(line);
+    }
   }
-
-  pathData += " Z";
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-  path.setAttribute("d", pathData);
-  path.setAttribute("stroke", "#ff9edb");
-  path.setAttribute("stroke-width", "2");
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke-linecap", "round");
-  path.style.filter = "drop-shadow(0 0 10px #ff9edb)";
-
-  svg.appendChild(path);
-}
 
   // ⭐ click logic
   stars.forEach((star, i) => {
     star.onclick = function () {
 
-      text.innerText = letters[i % letters.length];
+      text.innerText = "Open when...";
       popup.style.display = "flex";
 
       if (!opened.includes(i)) {
@@ -249,9 +220,9 @@ window.onload = function () {
         star.classList.add("opened");
       }
 
-      // ❤️ show heart only when all opened
+      // ❤️ draw after all clicked
       if (opened.length === stars.length) {
-        drawHeartOutline(stars);
+        drawHeart(stars);
 
         setTimeout(() => {
           final.style.display = "block";
@@ -269,4 +240,4 @@ window.onload = function () {
 
 </body>
 </html>
-```
+
