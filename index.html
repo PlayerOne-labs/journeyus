@@ -205,32 +205,37 @@ window.onload = function () {
 
   // ❤️ draw clean heart outline (not random lines)
   function drawHeartOutline(stars) {
-    let pathData = "";
+  const svg = document.getElementById("lines");
 
-    stars.forEach((star, i) => {
-      let x = star.offsetLeft + star.offsetWidth / 2;
-      let y = star.offsetTop + star.offsetHeight / 2;
+  // clear old lines (important)
+  svg.innerHTML = "";
 
-      if (i === 0) {
-        pathData += `M ${x} ${y}`;
-      } else {
-        pathData += ` L ${x} ${y}`;
-      }
-    });
+  const points = stars.map(star => {
+    return [
+      star.offsetLeft + star.offsetWidth / 2,
+      star.offsetTop + star.offsetHeight / 2
+    ];
+  });
 
-    pathData += " Z";
+  let pathData = `M ${points[0][0]} ${points[0][1]}`;
 
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-    path.setAttribute("d", pathData);
-    path.setAttribute("stroke", "#ff9edb");
-    path.setAttribute("stroke-width", "2");
-    path.setAttribute("fill", "none");
-    path.setAttribute("stroke-linecap", "round");
-    path.style.filter = "drop-shadow(0 0 10px #ff9edb)";
-
-    svg.appendChild(path);
+  for (let i = 1; i < points.length; i++) {
+    pathData += ` L ${points[i][0]} ${points[i][1]}`;
   }
+
+  pathData += " Z";
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+  path.setAttribute("d", pathData);
+  path.setAttribute("stroke", "#ff9edb");
+  path.setAttribute("stroke-width", "2");
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke-linecap", "round");
+  path.style.filter = "drop-shadow(0 0 10px #ff9edb)";
+
+  svg.appendChild(path);
+}
 
   // ⭐ click logic
   stars.forEach((star, i) => {
