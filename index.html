@@ -1026,6 +1026,45 @@ p.remove();
 
 }
 
+function showUnlockNotice(){
+
+const notice = document.createElement("div");
+
+notice.innerText = "FINAL FILE UNLOCKED";
+
+notice.style.position = "fixed";
+notice.style.bottom = "30px";
+notice.style.left = "50%";
+notice.style.transform = "translateX(-50%)";
+notice.style.padding = "10px 16px";
+notice.style.background = "rgba(0,0,0,0.8)";
+notice.style.border = "1px solid #ff00ff";
+notice.style.color = "#ff00ff";
+notice.style.borderRadius = "8px";
+notice.style.fontSize = "0.8rem";
+notice.style.zIndex = "9999";
+notice.style.opacity = "0";
+notice.style.transition = "opacity 0.3s ease";
+
+document.body.appendChild(notice);
+
+// fade in
+setTimeout(()=>{
+    notice.style.opacity = "1";
+},50);
+
+// fade out
+setTimeout(()=>{
+    notice.style.opacity = "0";
+},2000);
+
+// remove
+setTimeout(()=>{
+    notice.remove();
+},2500);
+
+}
+
 function unlockSecretTile(){
 
 document.body.classList.add("glitch");
@@ -2465,6 +2504,7 @@ if(openedCount >= letters.length - 2 && !secretUnlocked){
 
     setTimeout(()=>{
         unlockSecretTile();
+        showUnlockNotice();
     },800);
 }
 
