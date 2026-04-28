@@ -1,4 +1,4 @@
-==<!DOCTYPE html>
+ ==<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -613,13 +613,19 @@ VIEW RULES
 
 <div class="subtitle">
 
-1. Each tile opens a message.<br><br>
-2. Some levels are soft.<br>
-Some are ridiculous.<br>
-Some are dangerous.<br><br>
-3. AFTER DARK is self-explanatory.<br><br>
-4. No speed running.<br><br>
-5. Access level: personal.
+1. Each tile opens something you already know — or forgot.<br><br>
+
+2. Some are soft.<br>
+Some are stupid.<br>
+Some might annoy you.<br><br>
+
+3. You are not allowed to overthink anything in here.<br>
+(Yes, this rule exists because of you.)<br><br>
+
+4. No rushing.<br>
+You didn’t survive 6 years to speedrun this.<br><br>
+
+5. Access level: still mine.
 
 </div>
 
@@ -679,7 +685,7 @@ function checkCode(){
 
 const input=document.getElementById("codeInput");
 
-if(input.value==="280226"){
+if(input.value==="110120"){
 unlockSound();
 unlockSparkles();
 
@@ -723,14 +729,29 @@ input.value="";
 
 function typeWelcome(){
 
-const title = "WELCOME, MY FAVOURITE STARE";
+const title = "WELCOME HOME";
 
-const text = `If you're here, you found the vault.<br><br>
-Inside are small files for different moments.<br>
-Some are soft.<br>
-Some are playful.<br>
-Some unlock after dark.<br><br>
-Explore slowly.`;
+const text = `Six years.
+
+Not perfect.
+Not easy.
+
+But real.
+
+Through everything,
+you stayed.
+
+So this —
+this little vault —
+is just a reminder.
+
+Of the moments we don’t always say,
+but always feel.
+
+Take your time.
+
+You already know
+every part of this belongs to you.`;
 
 const titleEl = document.getElementById("welcomeTitle");
 const textEl = document.getElementById("welcomeText");
@@ -785,14 +806,29 @@ const titleEl = document.getElementById("welcomeTitle");
 const textEl = document.getElementById("welcomeText");
 const btn = document.getElementById("rulesBtn");
 
-titleEl.innerHTML = "WELCOME, MY FAVOURITE STARE";
+titleEl.innerHTML = "WELCOME HOME";
 
-textEl.innerHTML = `If you're here, you found the vault.<br><br>
-Inside are small files for different moments.<br>
-Some are soft.<br>
-Some are playful.<br>
-Some unlock after dark.<br><br>
-Explore slowly.`;
+textEl.innerHTML = `Six years.
+
+Not perfect.
+Not easy.
+
+But real.
+
+Through everything,
+you stayed.
+
+So this —
+this little vault —
+is just a reminder.
+
+Of the moments we don’t always say,
+but always feel.
+
+Take your time.
+
+You already know
+every part of this belongs to you.`;
 
 btn.style.display = "inline-block";
 
