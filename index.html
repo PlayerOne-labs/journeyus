@@ -2418,44 +2418,46 @@ unlockSecretTile();
 
 }
 
-/* OPEN LETTER */
-
 function openLetter(letter, tile){
 
+// 🎮 BONUS ROUND (mini game)
 if(letter.title === "BONUS ROUND"){
-startHeartGame();
-return;
+    startHeartGame();
+    return;
 }
 
+// 🎂 Birthday music
 if(letter.title === "ANNUAL EVENT"){
-const song = document.getElementById("birthdaySong");
-if(song){
-song.currentTime = 0;
-song.volume = 0.35;
-song.play();
-}
+    const song = document.getElementById("birthdaySong");
+    if(song){
+        song.currentTime = 0;
+        song.volume = 0.35;
+        song.play();
+    }
 }
 
+// 🌙 Sleep music
 if(letter.title === "MIDNIGHT SERVER"){
-const sleep = document.getElementById("sleepSong");
-if(sleep){
-sleep.currentTime = 0;
-sleep.volume = 0.35;
-sleep.play();
-}
+    const sleep = document.getElementById("sleepSong");
+    if(sleep){
+        sleep.currentTime = 0;
+        sleep.volume = 0.35;
+        sleep.play();
+    }
 }
 
+// prevent reopening same tile
 if(tile.classList.contains("opened")){
-return;
+    return;
 }
-
 
 tile.classList.add("opened");
 
+// 📊 track opened count
 openedCount++;
-
 localStorage.setItem("vaultOpened", openedCount);
 
+// 🔐 unlock FINAL FILE near completion
 if(openedCount >= letters.length - 2 && !secretUnlocked){
 
     secretUnlocked = true;
@@ -2464,14 +2466,15 @@ if(openedCount >= letters.length - 2 && !secretUnlocked){
     setTimeout(()=>{
         unlockSecretTile();
     },800);
-
 }
 
+// 📦 open overlay
 const overlay = document.getElementById("letterOverlay");
 const content = document.getElementById("letterContent");
 
 overlay.classList.add("active");
 
+// 🧱 layout
 content.innerHTML = `
 <div class="letterBody">
 
@@ -2488,11 +2491,9 @@ content.innerHTML = `
 </div>
 `;
 
-const text = letter.text;
 const typed = document.getElementById("typedText");
 
-/* split sentences */
-
+// ✍️ typing logic
 const sentences = letter.text.split("\n");
 
 typed.innerHTML = "";
@@ -2501,73 +2502,41 @@ let index = 0;
 
 function showSentence(){
 
-if(index < sentences.length){
+    if(index < sentences.length){
 
-const line = document.createElement("div");
-line.innerHTML = sentences[index];
+        const line = document.createElement("div");
+        line.innerHTML = sentences[index];
 
-typed.appendChild(line);
+        typed.appendChild(line);
 
-index++;
+        index++;
 
-const delay = index===1 ? 200 : 800;
+        const delay = index === 1 ? 200 : 800;
+        setTimeout(showSentence, delay);
+    }
 
-typingTimer = setTimeout(showSentence,delay);
+    else{
+        // 📎 show attachment after typing
+        setTimeout(()=>{
 
-}
+            const attach = document.getElementById("attachmentArea");
 
-else{
+            if(letter.attachment){
+                attach.innerHTML = letter.attachment;
+            }
 
-setTimeout(()=>{
-
-const attach=document.getElementById("attachmentArea");
-
-if(letter.attachment){
-attach.innerHTML=letter.attachment;
-}
-
-},800);
-
-}
-
+        },800);
+    }
 }
 
 showSentence();
 
-setTimeout(()=>{
-
-const music = document.getElementById("finalMusic");
-
-music.innerHTML = `
-<div class="attachmentBox">
-
-🎧 FINAL TRACK
-
-<br><br>
-
-<a href="https://youtu.be/wGF7PswOENQ?si=PZVOU0iZ5k4TFCDS" 
-target="_blank"
-style="
-display:inline-block;
-padding:8px 14px;
-border:1px solid #ff00ff;
-border-radius:6px;
-text-decoration:none;
-color:#ff00ff;
-font-size:0.85rem;
-">
-
-OPEN SONG
-
-</a>
-
-</div>
-`;
-
-}, 7000);
+// 🌟 FIX: restore background emoji effect
+stopGameEffect();
+startGameEffect(letter.effect);
 
 }
-  
+ 
 /* CLOSE LETTER */
 
 function closeLetter(){
