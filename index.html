@@ -1078,27 +1078,7 @@ content.innerHTML = `
 
 <div id="typedText"></div>
 
-<div class="attachmentBox" style="margin-top:20px;">
-
-🎧 PLAY THIS
-
-<br><br>
-
-<a href="https://youtu.be/wGF7PswOENQ?si=PZVOU0iZ5k4TFCDS" 
-target="_blank"
-style="
-display:inline-block;
-padding:8px 14px;
-border:1px solid #ff00ff;
-border-radius:6px;
-text-decoration:none;
-color:#ff00ff;
-font-size:0.85rem;
-">
-
-OPEN SONG
-
-</a>
+<div id="finalMusic" style="margin-top:20px;"></div>
 
 </div>
 
@@ -2407,7 +2387,7 @@ openedCount++;
 
 localStorage.setItem("vaultOpened", openedCount);
 
-if(openedCount === 5 && !secretUnlocked){
+if(openedCount === letters.length && !secretUnlocked){
 
     secretUnlocked = true;
     localStorage.setItem("vaultSecret","true");
@@ -2484,7 +2464,38 @@ attach.innerHTML=letter.attachment;
 }
 
 showSentence();
-startGameEffect(letter.effect);
+
+setTimeout(()=>{
+
+const music = document.getElementById("finalMusic");
+
+music.innerHTML = `
+<div class="attachmentBox">
+
+🎧 FINAL TRACK
+
+<br><br>
+
+<a href="https://youtu.be/wGF7PswOENQ?si=PZVOU0iZ5k4TFCDS" 
+target="_blank"
+style="
+display:inline-block;
+padding:8px 14px;
+border:1px solid #ff00ff;
+border-radius:6px;
+text-decoration:none;
+color:#ff00ff;
+font-size:0.85rem;
+">
+
+OPEN SONG
+
+</a>
+
+</div>
+`;
+
+}, 7000);
 
 }
   
@@ -2597,7 +2608,7 @@ setTimeout(()=>tile.style.animation="",300);
 /* show gif first */
 
 msg.innerHTML = `
-<img src="laugh.gif" style="width:150px;border-radius:10px;display:block;margin:20px auto;">
+<img src="laugh.webp" style="width:150px;border-radius:10px;display:block;margin:20px auto;">
 `;
 
 const laugh = document.getElementById("laughSong");
