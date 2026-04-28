@@ -1064,7 +1064,7 @@ tile.classList.add("opening");
 
 setTimeout(()=>{
 
-// 🔇 make this one feel different (no particles)
+// stop particles for final file
 stopGameEffect();
 
 document.getElementById("letterOverlay").classList.add("active");
@@ -1165,6 +1165,41 @@ function showSentence(){
 
 showSentence();
 
+// 🎧 MUSIC APPEARS AFTER TEXT
+setTimeout(()=>{
+
+const music = document.getElementById("finalMusic");
+
+if(!music) return;
+
+music.innerHTML = `
+<div class="attachmentBox">
+
+🎧 FINAL TRACK
+
+<br><br>
+
+<a href="https://youtu.be/wGF7PswOENQ?si=PZVOU0iZ5k4TFCDS" 
+target="_blank"
+style="
+display:inline-block;
+padding:8px 14px;
+border:1px solid #ff00ff;
+border-radius:6px;
+text-decoration:none;
+color:#ff00ff;
+font-size:0.85rem;
+">
+
+OPEN SONG
+
+</a>
+
+</div>
+`;
+
+}, 6000);
+
 },700);
 
 };
@@ -1174,6 +1209,7 @@ grid.prepend(tile);
 unlockSound();
 
 }
+
 
 /* LETTER DATA */
 
